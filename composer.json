@@ -8,7 +8,7 @@
             "email": "bala.phpdev@gmail.com"
         }
     ],
-    "require-dev": {
+    "require": {
         "phpunit/phpunit": "~5.0"
     },
     "autoload": {
