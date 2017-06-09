@@ -1,18 +1,4 @@
-Coalition Technologies PHP Skills Assessment
 
-Create a configuration repository which can be used to hold an application's config variables.
-The class is already created with the required methods in the src directory.  Build each method
-and run vendor/bin/phpunit from the command line to test your work.
-
-Requirements:
-Configuration values must be able to be optionally set through the constructor when the class
-is instantiated.
-
-Configuration values must be accessible through array access
-
-An unlimited number of configuration values should be able to be set
-
-The set and remove methods must be chainable
-
-Further instructions are in the comments for each method.  If you have any questions view the
-test class.  Do not make any changes to the test class, this will result in automatic disqualification.
+1. Demo URL:-
+2. You can run Unit test with "vendor/bin/phpunit" and Change your development url in tests/api.php
+3. I have tested with 3.5 GB files. Its pretty fast. You can Generate large file using generate_demo_data.php file.
