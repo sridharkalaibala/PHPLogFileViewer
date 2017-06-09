@@ -2,6 +2,16 @@
 use Sridharkalaibala\ReadFile;
 header('Content-Type: application/json');
 include_once 'ReadFile.php';
+/**
+ * API Controller
+ *
+ * Receives the GET or POST Request and process the request
+ *
+ * @package    Sridharkalaibala
+ * @subpackage API
+ * @author     Sridhar Balasubramanian <bala.phpdev@gmail.com>
+ * @throws Exception If any invalid parameter or File it throws the RuntimeException
+ */
 try {
     if(isset($_REQUEST['file']) && is_file($_REQUEST['file']) && isset($_REQUEST['page'])) {
         $file_name = $_REQUEST['file'];

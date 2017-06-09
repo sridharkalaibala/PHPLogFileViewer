@@ -17,14 +17,12 @@
     <div class="row">
 
         <br>
-
-
-            <div class="input-group">
-                <input type="text" class="form-control" id="path" placeholder="/path/to/file" value="log.txt" />
-                <div class="input-group-btn">
-                    <button type="button" class="btn btn-primary" id="view">View</button>
-                </div>
+        <div class="input-group">
+            <input type="text" class="form-control" id="path" placeholder="/path/to/file" value="log.txt"/>
+            <div class="input-group-btn">
+                <button type="button" class="btn btn-primary" id="view">View</button>
             </div>
+        </div>
 
 
         <br>
@@ -36,7 +34,8 @@
         </table>
         <ul class="pagination col-md-12 col-sm-12 col-xs-12">
             <li id="first"><a href="#" class="col-md-3 col-sm-3 col-xs-3 text-center"> <strong>I&lt;</strong> </a></li>
-            <li id="previous"><a href="#" class="col-md-3 col-sm-3 col-xs-3 text-center"> <strong>&lt;</strong> </a></li>
+            <li id="previous"><a href="#" class="col-md-3 col-sm-3 col-xs-3 text-center"> <strong>&lt;</strong> </a>
+            </li>
             <li id="next"><a href="#" class="col-md-3 col-sm-3 col-xs-3 text-center"> <strong>&gt;</strong> </a></li>
             <li id="last"><a href="#" class="col-md-3 col-sm-3 col-xs-3 text-center"> <strong>&gt;I</strong> </a></li>
         </ul>
@@ -50,64 +49,78 @@
 
 <script>
     currentPage = 1;
-    $(document).ready(function(){
-        $('#view, #first').click(function(){
+    /**
+     * When page ready initializing the pagination button clicks
+     */
+    $(document).ready(function () {
+        $('#view, #first').click(function () {
             getPage('first');
         });
-        $('#last').click(function(){
+        $('#last').click(function () {
             getPage('last');
         });
-        $('#next').click(function(){
+        $('#next').click(function () {
             getPage('next');
         });
-        $('#previous').click(function(){
+        $('#previous').click(function () {
             getPage('previous');
         });
-        requestData = {file:$('#path').val(),page:'first'};
+        requestData = {file: $('#path').val(), page: 'first'}; // getting file path and loading the first page on page load
         getData(requestData);
     });
 
-
-    function getPage(page){
+    /**
+     * Initializing the AJAX request data and calling the AJAX function
+     * @method getPage
+     * @param {String} page - page number or string
+     * @return {void} It wont return any value. DOM changes
+     */
+    function getPage(page) {
         var requestData = {};
-        if(page == 'first') {
+        if (page == 'first') {
             currentPage = 1;
             $('#page_no').html('First');
-            requestData = {file:$('#path').val(),page:'first'};
+            requestData = {file: $('#path').val(), page: 'first'};
             getData(requestData);
-        }else if(page == 'last') {
+        } else if (page == 'last') {
             currentPage = -1;
             $('#page_no').html('Last');
-            requestData = {file:$('#path').val(),page:'last'};
+            requestData = {file: $('#path').val(), page: 'last'};
             getData(requestData);
-        }else if(page =='next') {
+        } else if (page == 'next') {
             currentPage++;
             $('#page_no').html(currentPage);
-            requestData = {file:$('#path').val(),page:currentPage};
+            requestData = {file: $('#path').val(), page: currentPage};
             getData(requestData);
-        }else if(page =='previous') {
+        } else if (page == 'previous') {
             currentPage--;
             $('#page_no').html(currentPage);
-            requestData = {file:$('#path').val(),page:currentPage};
+            requestData = {file: $('#path').val(), page: currentPage};
             getData(requestData);
         }
     }
 
-    function getData(requestData){
+    /**
+     * Requesting page data as AJAX and rendering log data lines into Table
+     * @method getData
+     * @param {JSON} requestData - AJAX request data
+     * @return {void} It wont return any value. DOM changes
+     */
+    function getData(requestData) {
         $.post('api.php', requestData,
             function (data) {
-            console.log(data);
-                if(data.status == 'success'){
+                console.log(data);
+                if (data.status == 'success') {
                     $('#log').html('');
-                    jQuery.each( data.data, function( i, val ) {
-                        $('#log').append('<tr><td  width="2%" class="active">'+val.no+'</td><td>'+val.line+'</td>');
-                        if(currentPage == -1) currentPage = Math.round(val.no / 10);
+                    jQuery.each(data.data, function (i, val) {
+                        $('#log').append('<tr><td  width="2%" class="active">' + val.no + '</td><td>' + val.line + '</td>');
+                        if (currentPage == -1) currentPage = Math.round(val.no / 10);
                     });
-                }else if(data.status == 'error' && data.data != 400) {
+                } else if (data.status == 'error' && data.data != 400) {
                     alert(data.message);
                     currentPage = 1;
                     $('#page_no').html('first');
-                    requestData = {file:$('#path').val(),page:'first'};
+                    requestData = {file: $('#path').val(), page: 'first'};
                     getData(requestData);
                 } else {
                     alert(data.message);
@@ -116,7 +129,6 @@
 
             }, 'json');
     }
-
 
 
 </script>
